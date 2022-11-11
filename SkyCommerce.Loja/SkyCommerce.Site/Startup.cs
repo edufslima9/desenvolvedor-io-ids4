@@ -6,10 +6,14 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 using SkyCommerce.Data.Configuration;
 using SkyCommerce.Data.Context;
 using SkyCommerce.Site.Configure;
+using System.Diagnostics;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace SkyCommerce.Site
 {
@@ -29,6 +33,37 @@ namespace SkyCommerce.Site
                 .AddRazorRuntimeCompilation();
 
             services.AddHttpClient();
+
+            services.AddHttpContextAccessor();
+
+            JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+            if (Debugger.IsAttached)
+                IdentityModelEventSource.ShowPII = true;
+
+            services.AddAuthentication(o =>
+            {
+                o.DefaultScheme = "Cookies";
+                o.DefaultChallengeScheme = "oidc";
+            })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.Authority = "https://localhost:5001";
+                    options.ClientId = "fec114f1a045407b843b43f123fd11c3";
+                    options.ClientSecret = "c7b5f88f662f4bfbaa49aee5b02f061f";
+                    options.ResponseType = "code";
+                    options.Scope.Add("profile");
+                    options.Scope.Add("openid");
+                    options.SaveTokens = true;
+                    options.GetClaimsFromUserInfoEndpoint = true;
+
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        NameClaimType = "name",
+                        RoleClaimType = "role"
+                    };
+                });
+
             // Dbcontext config
             services.ConfigureProviderForContext<SkyContext>(DetectDatabase);
 

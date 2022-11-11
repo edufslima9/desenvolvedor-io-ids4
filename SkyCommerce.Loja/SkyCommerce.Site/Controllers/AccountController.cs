@@ -13,7 +13,7 @@ namespace SkyCommerce.Site.Controllers
     public class AccountController : Controller
     {
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize]
         [Route("entrar")]
         public IActionResult Login(string returnUrl = null)
         {
