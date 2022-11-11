@@ -1,0 +1,71 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container main-container headerOffset">
+
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="active"> Autenticar</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-6 col-lg-offset-3 col-md-9 col-sm-7">
+            <h1 class="section-title-inner"><span><i class="fa fa-lock"></i> Identifique-se</span></h1>
+
+            <div class="row userInfo">
+
+                <h2 class="block-title-2"><span>Login</span></h2>
+
+                <form role="form" class="logForm" asp-controller="Account" asp-action="Login">
+                    <div class="form-group">
+                        <label asp-for="Username">Email</label>
+                        <input asp-for="Username" type="email" class="form-control" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label>Senha</label>
+                        <input type="password" asp-for="Password" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="checkbox" asp-for="RememberMe">
+                            Lembrar
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <p>
+                            <a title="Recover your forgotten password">
+                                Esqueceu sua senha?
+                            </a>
+                        </p>
+                    </div>
+
+                    <div>
+                        <div>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> Entrar</button>
+                        </div>
+                    </div>
+                    <br />
+                    @await Html.PartialAsync("_ValidationSummary")
+
+                </form>
+            </div>
+            <!--/row end-->
+
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-5"></div>
+    </div>
+    <!--/row-->
+
+    <div style="clear:both"></div>
+</div>
+<!-- /wrapper -->
