@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using SkyCommerce.Data.Context;
 using SkyCommerce.Data.Mappers;
@@ -14,27 +13,6 @@ namespace SkyCommerce.Data.Util
 {
     public class FakeData
     {
-
-        /// <summary>
-        /// Generate default admin user / role
-        /// </summary>
-        public static async Task EnsureSeedIdentityData(UserManager<IdentityUser> userManager, IConfiguration configuration)
-        {
-
-            // Create user
-            if (await userManager.FindByNameAsync(configuration.GetValue<string>("ApplicationSettings:DefaultUser") ?? "bruno") != null) return;
-
-            var user = new IdentityUser()
-            {
-                UserName = configuration.GetValue<string>("ApplicationSettings:DefaultUser") ?? "bob@bob.com",
-                Email = configuration.GetValue<string>("ApplicationSettings:DefaultEmail") ?? "bob@bob.com",
-                EmailConfirmed = true,
-                LockoutEnd = null
-            };
-
-            await userManager.CreateAsync(user, configuration.GetValue<string>("ApplicationSettings:DefaultPass") ?? "10203040");
-        }
-
         public static async Task<List<Produto>> CarregarProdutos(SkyContext context, string root)
         {
             var faker = new Faker("pt_BR");

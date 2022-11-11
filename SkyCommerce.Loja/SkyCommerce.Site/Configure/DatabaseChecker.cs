@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -27,12 +26,8 @@ namespace SkyCommerce.Site.Configure
 
 
             Log.Information("Aguarde, carregando base de dados");
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
             var carrinhoService = scope.ServiceProvider.GetRequiredService<ICarrinhoService>();
-
-            Log.Information("Carregando usuarios");
-            await FakeData.EnsureSeedIdentityData(userManager, configuration);
 
             Log.Information("Carregando produtos");
             var produtos = await FakeData.CarregarProdutos(context, env.WebRootPath);

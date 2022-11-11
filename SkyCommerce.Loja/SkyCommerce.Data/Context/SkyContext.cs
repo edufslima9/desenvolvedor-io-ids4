@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SkyCommerce.Data.Entities;
 using System.Threading.Tasks;
 
 namespace SkyCommerce.Data.Context
 {
-    public class SkyContext : IdentityDbContext<IdentityUser>, IDataProtectionKeyContext
+    public class SkyContext : DbContext, IDataProtectionKeyContext
     {
 
         public SkyContext(DbContextOptions<SkyContext> options)
